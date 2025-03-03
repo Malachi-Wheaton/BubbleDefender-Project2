@@ -10,12 +10,20 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        fireCooldown -= Time.deltaTime;
-        if (fireCooldown <= 0f && enemiesInRange.Count > 0)
+        void Update()
         {
-            Shoot(enemiesInRange[0]);
-            fireCooldown = fireRate;
+            fireCooldown -= Time.deltaTime;
+
+            // Remove any destroyed enemies from the list
+            enemiesInRange.RemoveAll(enemy => enemy == null);
+
+            if (fireCooldown <= 0f && enemiesInRange.Count > 0)
+            {
+                Shoot(enemiesInRange[0]);
+                fireCooldown = fireRate;
+            }
         }
+
     }
 
     void Shoot(Enemy enemy)
