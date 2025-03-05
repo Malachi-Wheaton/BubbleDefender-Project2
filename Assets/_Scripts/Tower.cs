@@ -10,7 +10,6 @@ public class Tower : MonoBehaviour
 
     void Update()
     {
-        void Update()
         {
             fireCooldown -= Time.deltaTime;
 
@@ -30,6 +29,7 @@ public class Tower : MonoBehaviour
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
         bullet.GetComponent<Bullet>().target = enemy;
+        Debug.Log("FIRE");
     }
 
     void OnTriggerEnter2D(Collider2D other)
