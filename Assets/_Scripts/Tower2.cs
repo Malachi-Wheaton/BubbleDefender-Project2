@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Tower : MonoBehaviour
+public class Tower2 : MonoBehaviour
 {
     public GameObject Target;
     public float Range = 5.0f;
