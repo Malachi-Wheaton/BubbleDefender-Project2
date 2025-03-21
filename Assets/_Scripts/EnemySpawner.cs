@@ -80,7 +80,6 @@ public class EnemySpawner : MonoBehaviour
 
         GameObject prefabToSpawn = enemyPrefabs[0];
         Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
-        Debug.Log("Spawn Enemy");
     }
 
     private int EnemiesPerWave()
