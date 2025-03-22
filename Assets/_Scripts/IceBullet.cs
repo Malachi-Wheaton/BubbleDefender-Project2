@@ -1,16 +1,16 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class IceBullet : MonoBehaviour
 {
     [Header("References")]
     [SerializeField] private Rigidbody2D rb;
 
-
     [Header("Attributes")]
-    [SerializeField] private float bulletSpeed = 5f;
+    [SerializeField] private float bulletSpeed = 8f;
     [SerializeField] private int bulletDamage = 1;
+    private float freezeDuration; 
 
     private Transform target;
 
@@ -19,21 +19,39 @@ public class Bullet : MonoBehaviour
         target = _target;
     }
 
+    public void SetFreezeEffect(float duration)
+    {
+        freezeDuration = duration;
+    }
+
     private void FixedUpdate()
     {
         if (!target) return;
 
         Vector2 direction = (target.position - transform.position).normalized;
-
         rb.velocity = direction * bulletSpeed;
     }
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        Debug.Log("Destroyed");
-        other.gameObject.GetComponent<EnemyHealth>().TakeDamage(bulletDamage);
+        Debug.Log("Ice Bullet Hit!");
+
+        EnemyMovement enemy = other.gameObject.GetComponent<EnemyMovement>();
+        if (enemy != null)
+        {
+            enemy.Freeze(freezeDuration); 
+        }
+
+        other.gameObject.GetComponent<EnemyHealth>()?.TakeDamage(bulletDamage);
+
         Destroy(gameObject);
-
     }
-
 }
+
+
+
+
+
+
+
+

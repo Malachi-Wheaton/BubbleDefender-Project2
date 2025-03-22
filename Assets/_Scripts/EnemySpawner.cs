@@ -13,6 +13,7 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
+    [SerializeField] private int maxWaves = 5; // Add max waves limit
 
     [Header("Events")]
     public static UnityEvent onEnemyDestroy = new UnityEvent(); // ✅ Added missing semicolon and initialized UnityEvent
@@ -35,7 +36,7 @@ public class EnemySpawner : MonoBehaviour
 
     private void Update()
     {
-        if (!isSpawning) return;
+        if (!isSpawning || currentWave > maxWaves) return; // Stop if max waves reached
 
         timeSinceLastSpawn += Time.deltaTime;
 
@@ -60,6 +61,8 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
+        if (currentWave > maxWaves) yield break; // Exit coroutine if max waves reached
+
         yield return new WaitForSeconds(timeBetweenWaves); // Fixed WaitForSeconds typo
 
         isSpawning = true;
@@ -71,14 +74,17 @@ public class EnemySpawner : MonoBehaviour
         isSpawning = false;
         timeSinceLastSpawn = 0f;
         currentWave++;
+
+        if (currentWave > maxWaves) return; // Stop spawning if max waves reached
         StartCoroutine(StartWave()); // Fixed StartCoroutine call
     }
 
     private void SpawnEnemy()
     {
-        if (enemyPrefabs.Length == 0) return; // Safety check
+        if (enemyPrefabs.Length < 2) return; // Ensure there are at least two types of enemies
 
-        GameObject prefabToSpawn = enemyPrefabs[0];
+        // Randomly choose between the first two enemies
+        GameObject prefabToSpawn = enemyPrefabs[Random.Range(0, 2)];
         Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
     }
 
@@ -86,8 +92,8 @@ public class EnemySpawner : MonoBehaviour
     {
         return Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
     }
-
 }
+
 
 
 

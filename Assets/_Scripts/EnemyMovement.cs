@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,10 +8,11 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
 
     [Header("Attributes")]
-    [SerializeField] private float movespeed = 2f;
+    [SerializeField] private float moveSpeed = 2f;
 
     private Transform target;
     private int pathIndex = 0;
+    private bool isFrozen = false;
 
     private void Start()
     {
@@ -20,14 +21,14 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+        if (isFrozen) return;
+
         if (Vector2.Distance(target.position, transform.position) <= 0.1f)
         {
             pathIndex++;
             if (pathIndex == LevelManager.main.path.Length)
             {
-                EnemySpawner.onEnemyDestroy.Invoke();
-                Destroy(gameObject);
-                return;
+                Destroy(gameObject); 
             }
             else
             {
@@ -38,10 +39,31 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (isFrozen) return; 
+
         Vector2 direction = (target.position - transform.position).normalized;
-        rb.velocity = direction * movespeed;
+        rb.velocity = direction * moveSpeed;
+    }
+
+    
+    public void Freeze(float duration)
+    {
+        StartCoroutine(FreezeCoroutine(duration)); 
+    }
+
+    
+    private IEnumerator FreezeCoroutine(float duration)
+    {
+        isFrozen = true; 
+        rb.velocity = Vector2.zero;
+        yield return new WaitForSeconds(duration); 
+        isFrozen = false; 
     }
 }
+
+
+
+
 
 
 

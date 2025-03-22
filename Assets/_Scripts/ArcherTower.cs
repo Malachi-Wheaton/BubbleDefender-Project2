@@ -44,16 +44,11 @@ public class Tower : MonoBehaviour
 
     private void Shoot()
     {
-        if (target == null) return;
-
         GameObject bulletObj = Instantiate(bulletPrefab, firingPoint.position, Quaternion.identity);
         Bullet bulletScript = bulletObj.GetComponent<Bullet>();
-
-        if (bulletScript != null)
-        {
-            bulletScript.SetTarget(target);
-        }
+        bulletScript.SetTarget(target);
     }
+
 
 
     private void FindTarget()
