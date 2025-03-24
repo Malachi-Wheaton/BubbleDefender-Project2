@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,28 +10,60 @@ public class Plot : MonoBehaviour
 
     private GameObject ArcherTower;
     private Color startColor;
+    private Color invisibleColor = new Color(0, 0, 0, 0);  
+    private bool HasTower = false;
 
     private void Start()
     {
+        
         startColor = sr.color;
+        sr.color = invisibleColor;  
     }
 
     private void OnMouseEnter()
     {
-        sr.color = hoverColor;
+        if (HasTower)
+        {
+            return;
+        }
+        
+        sr.color = startColor;
     }
 
     private void OnMouseExit()
     {
-        sr.color = startColor;
+        
+        sr.color = invisibleColor;
     }
 
     private void OnMouseDown()
     {
-        if (ArcherTower != null) return;  
+        if (ArcherTower != null) return;
+        HasTower = true;
 
-        GameObject ArcherTowerToBuild = BuildManager.main.GetSelectedTower();
-        ArcherTower = Instantiate(ArcherTowerToBuild, transform.position, Quaternion.identity);
+        TowerData TowerToBuild = BuildManager.main.GetSelectedTower();
+
+        if (TowerToBuild == null)
+        {
+            Debug.LogError("No tower selected! Check if BuildManager is returning a tower.");
+            return;
+        }
+
+        if (TowerToBuild.prefab == null)
+        {
+            Debug.LogError($"Tower {TowerToBuild.name} has no prefab assigned!");
+            return;
+        }
+        if(TowerToBuild.cost > LevelManager.main.currency)
+        {
+            Debug.Log("You can't afford this tower");
+               return;
+        }
+
+        LevelManager.main.SpendCurrency(TowerToBuild.cost);
+
+        ArcherTower = Instantiate(TowerToBuild.prefab, transform.position, Quaternion.identity);
     }
 }
+
 

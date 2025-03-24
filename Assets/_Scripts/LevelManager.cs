@@ -23,16 +23,22 @@ public class LevelManager : MonoBehaviour
 
     public void IncreaseCurrency(int amount)
     {
-        currenccy += amount;
+        currency += amount;
     }
 
-    public void SpendCurrency(int amount)
+    public bool SpendCurrency(int amount)
     {
         if (amount <= currency)
+        {
+            currency -= amount;
+            return true;
+        }
+        else
+        {
+            Debug.Log("You do not have enough to purchase this item");
+            return false;
+        }
     }
-        
-        
-
-
 }
+
 

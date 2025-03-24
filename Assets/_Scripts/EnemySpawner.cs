@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events; // Added missing import for UnityEvent
+using UnityEngine.Events; 
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -13,10 +13,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
-    [SerializeField] private int maxWaves = 5; // Add max waves limit
+    [SerializeField] private int maxWaves = 5; 
 
     [Header("Events")]
-    public static UnityEvent onEnemyDestroy = new UnityEvent(); // ✅ Added missing semicolon and initialized UnityEvent
+    public static UnityEvent onEnemyDestroy = new UnityEvent(); 
 
     private int currentWave = 1;
     private float timeSinceLastSpawn;
@@ -31,12 +31,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartWave()); // Fixed StartCoroutine call
+        StartCoroutine(StartWave()); 
     }
 
     private void Update()
     {
-        if (!isSpawning || currentWave > maxWaves) return; // Stop if max waves reached
+        if (!isSpawning || currentWave > maxWaves) return; 
 
         timeSinceLastSpawn += Time.deltaTime;
 
@@ -61,9 +61,9 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
-        if (currentWave > maxWaves) yield break; // Exit coroutine if max waves reached
+        if (currentWave > maxWaves) yield break;
 
-        yield return new WaitForSeconds(timeBetweenWaves); // Fixed WaitForSeconds typo
+        yield return new WaitForSeconds(timeBetweenWaves);
 
         isSpawning = true;
         enemiesLeftToSpawn += EnemiesPerWave();
@@ -75,15 +75,14 @@ public class EnemySpawner : MonoBehaviour
         timeSinceLastSpawn = 0f;
         currentWave++;
 
-        if (currentWave > maxWaves) return; // Stop spawning if max waves reached
-        StartCoroutine(StartWave()); // Fixed StartCoroutine call
+        if (currentWave > maxWaves) return;
+        StartCoroutine(StartWave());
     }
 
     private void SpawnEnemy()
     {
-        if (enemyPrefabs.Length < 2) return; // Ensure there are at least two types of enemies
+        if (enemyPrefabs.Length < 2) return;
 
-        // Randomly choose between the first two enemies
         GameObject prefabToSpawn = enemyPrefabs[Random.Range(0, 2)];
         Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
     }

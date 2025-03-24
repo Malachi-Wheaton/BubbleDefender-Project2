@@ -57,8 +57,6 @@ public class PlayerHealth : MonoBehaviour
             TakeDamage(1); 
         }
 
-        
-        Debug.Log("Current Health: " + currentHealth);
     }
 }
 

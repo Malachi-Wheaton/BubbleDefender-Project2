@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,8 +7,7 @@ public class BuildManager : MonoBehaviour
     public static BuildManager main;
 
     [Header("References")]
-    [SerializeField] private GameObject[] ArcherTowerPrefabs;
-    [SerializeField] private GameObject[] IceTowerPrefabs;
+    [SerializeField] private TowerData[] towers;
 
     private int selectedTower = 0;
 
@@ -17,16 +16,31 @@ public class BuildManager : MonoBehaviour
         main = this;
     }
 
-    public GameObject GetSelectedTower()
+    public TowerData GetSelectedTower()
     {
-        
-        return ArcherTowerPrefabs[selectedTower]; 
+        if (towers == null || towers.Length == 0)
+        {
+            Debug.LogError("No towers assigned in BuildManager!");
+            return null;
+        }
+
+        return towers[selectedTower];
     }
 
-    public void SetSelectedTower(int towerIndex)
+    public void GetSelectedTower(int towerIndex)
     {
-        selectedTower = towerIndex;
+        if (towerIndex >= 0 && towerIndex < towers.Length)
+        {
+            selectedTower = towerIndex;
+        }
     }
+
+    public void SetSelectedTower(int _selectedTower)
+    {
+        selectedTower = _selectedTower;
+    }
+
 }
+
 
 
