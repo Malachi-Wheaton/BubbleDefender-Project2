@@ -4,38 +4,38 @@ using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
-    public static PlayerHealth instance; // Static instance to reference PlayerHealth
+    public static PlayerHealth instance; 
 
     [Header("Player Stats")]
-    [SerializeField] private int maxHealth = 100;  // Max health of the player/base
+    [SerializeField] private int maxHealth = 100;  
     private int currentHealth;
 
     [Header("Game Over UI")]
-    [SerializeField] private GameObject gameOverPanel;  // Reference to the Game Over Panel
+    [SerializeField] private GameObject gameOverPanel;  
 
     [Header("Events")]
-    public UnityEvent onPlayerDie;  // Event to trigger when the player dies
+    public UnityEvent onPlayerDie;  
 
     private void Awake()
     {
-        // Ensure that only one instance of PlayerHealth exists
+        
         if (instance == null)
         {
-            instance = this; // Set this as the singleton instance
+            instance = this; 
         }
         else if (instance != this)
         {
-            Destroy(gameObject); // Destroy any duplicate PlayerHealth instances
+            Destroy(gameObject); 
         }
     }
 
     private void Start()
     {
-        currentHealth = maxHealth;  // Initialize the current health to max at the start
+        currentHealth = maxHealth;  
 
         if (gameOverPanel != null)
         {
-            gameOverPanel.SetActive(false);  // Hide the Game Over Panel initially
+            gameOverPanel.SetActive(false);  
         }
         else
         {
@@ -43,49 +43,49 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    // Method to apply damage to the player (or base)
+    
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;  // Decrease health based on the damage
+        currentHealth -= damage;  
         Debug.Log($"Player (Base) took {damage} damage, current health: {currentHealth}");
 
         if (currentHealth <= 0)
         {
-            Die();  // Call the Die method if health reaches 0 or less
+            Die();  
         }
     }
 
-    // This method is called when the player (base) dies
+    
     private void Die()
     {
-        Time.timeScale = 0f;  // Pause the game
+        Time.timeScale = 0f;  
 
         if (gameOverPanel != null)
         {
-            gameOverPanel.SetActive(true);  // Show the Game Over Panel
+            gameOverPanel.SetActive(true);  
         }
         else
         {
             Debug.LogError("Game Over Panel is missing. Assign it in the Inspector.");
         }
 
-        Cursor.lockState = CursorLockMode.None;  // Unlock the cursor
-        Cursor.visible = true;  // Make the cursor visible
-        onPlayerDie?.Invoke();  // Trigger the event for any listeners
+        Cursor.lockState = CursorLockMode.None;  
+        Cursor.visible = true;  
+        onPlayerDie?.Invoke();  
     }
 
-    // Restart the game when the player chooses to restart
+    
     public void RestartGame()
     {
-        Time.timeScale = 1f;  // Resume the game time
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);  // Reload the current scene
+        Time.timeScale = 1f;  
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);  
     }
 
-    // Quit the game
+    
     public void QuitGame()
     {
-        Time.timeScale = 1f;  // Reset the time scale
-        Application.Quit();  // Quit the game
+        Time.timeScale = 1f;  
+        Application.Quit();  
     }
 }
 

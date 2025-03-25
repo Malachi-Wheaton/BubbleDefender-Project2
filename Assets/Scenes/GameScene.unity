@@ -3057,9 +3057,9 @@ MonoBehaviour:
   - {fileID: 1258060030776859551, guid: e67db862a675bd14aac589f95eb97014, type: 3}
   baseEnemies: 10
   enemiesPerSecond: 1
-  timeBetweenWaves: 1
+  timeBetweenWaves: 3
   difficultyScalingFactor: 0.8
-  maxWaves: 8
+  maxWaves: 6
 --- !u!114 &166947843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10825,8 +10825,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 401.1, y: -285.7}
-  m_SizeDelta: {x: 150, y: 30}
+  m_AnchoredPosition: {x: 395.21024, y: -267.0029}
+  m_SizeDelta: {x: 161.7796, y: 67.3942}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1350371644
 MonoBehaviour:

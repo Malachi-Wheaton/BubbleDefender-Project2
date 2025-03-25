@@ -4,11 +4,11 @@ using UnityEngine.SceneManagement;
 public class GameOverManager : MonoBehaviour
 {
     [Header("UI References")]
-    [SerializeField] private GameObject gameOverPanel; // Assign in the Inspector
+    [SerializeField] private GameObject gameOverPanel; 
 
     private bool isGameOver = false;
 
-    public static GameOverManager instance; // Singleton instance
+    public static GameOverManager instance; 
 
     private void Awake()
     {
@@ -27,21 +27,21 @@ public class GameOverManager : MonoBehaviour
         if (isGameOver) return;
 
         isGameOver = true;
-        Time.timeScale = 0f; // Freeze game
-        gameOverPanel.SetActive(true); // Show Game Over panel
-        Cursor.lockState = CursorLockMode.None; // Unlock cursor
+        Time.timeScale = 0f; 
+        gameOverPanel.SetActive(true); 
+        Cursor.lockState = CursorLockMode.None; 
         Cursor.visible = true;
     }
 
     public void RestartGame()
     {
-        Time.timeScale = 1f; // Reset time scale
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload scene
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
     public void QuitGame()
     {
-        Time.timeScale = 1f; // Reset time scale before quitting
+        Time.timeScale = 1f; 
         Application.Quit();
     }
 }

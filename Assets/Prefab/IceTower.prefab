@@ -134,6 +134,6 @@ MonoBehaviour:
     m_Bits: 64
   iceBulletPrefab: {fileID: 3911828599735195908, guid: edd56f6b22b57d24cbf209e7d0266534, type: 3}
   firingPoint: {fileID: 6613515610547290135}
-  targetingRange: 4.5
+  targetingRange: 4
   BPS: 0.5
   freezeDuration: 2.5
