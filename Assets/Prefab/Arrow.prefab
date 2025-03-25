@@ -162,5 +162,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: -899669824888899751}
-  bulletSpeed: 5
+  bulletSpeed: 4.5
   bulletDamage: 4

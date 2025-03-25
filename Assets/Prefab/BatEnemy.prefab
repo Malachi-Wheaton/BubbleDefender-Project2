@@ -163,7 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 3976112778915286572}
-  moveSpeed: 4.5
+  moveSpeed: 4.15
+  damageToBase: 1
 --- !u!114 &8231271316235871227
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,5 +177,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6612e0c5ad3d7ea439641c9b359b3457, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 3
-  currencyWorth: 2
+  hitPoints: 4
+  currencyWorth: 3

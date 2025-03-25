@@ -164,6 +164,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2511969295395238863}
   moveSpeed: 2
+  damageToBase: 3
 --- !u!114 &8024462907726982800
 MonoBehaviour:
   m_ObjectHideFlags: 0

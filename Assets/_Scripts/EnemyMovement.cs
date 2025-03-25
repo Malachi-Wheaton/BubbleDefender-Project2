@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
@@ -9,6 +8,7 @@ public class EnemyMovement : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] private float moveSpeed = 2f;
+    [SerializeField] private int damageToBase = 10; // Amount of damage enemy deals to the base
 
     private Transform target;
     private int pathIndex = 0;
@@ -28,7 +28,8 @@ public class EnemyMovement : MonoBehaviour
             pathIndex++;
             if (pathIndex == LevelManager.main.path.Length)
             {
-                Destroy(gameObject); 
+                DealDamageToBase();
+                Destroy(gameObject);
             }
             else
             {
@@ -39,27 +40,41 @@ public class EnemyMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isFrozen) return; 
+        if (isFrozen) return;
 
         Vector2 direction = (target.position - transform.position).normalized;
         rb.velocity = direction * moveSpeed;
     }
 
-    
-    public void Freeze(float duration)
+    private void DealDamageToBase()
     {
-        StartCoroutine(FreezeCoroutine(duration)); 
+        if (PlayerHealth.instance != null)
+        {
+            PlayerHealth.instance.TakeDamage(damageToBase);
+        }
+        else
+        {
+            Debug.LogWarning("PlayerHealth instance not found!");
+        }
     }
 
-    
+    public void Freeze(float duration)
+    {
+        StartCoroutine(FreezeCoroutine(duration));
+    }
+
     private IEnumerator FreezeCoroutine(float duration)
     {
-        isFrozen = true; 
+        isFrozen = true;
         rb.velocity = Vector2.zero;
-        yield return new WaitForSeconds(duration); 
-        isFrozen = false; 
+        yield return new WaitForSeconds(duration);
+        isFrozen = false;
     }
 }
+
+
+
+
 
 
 

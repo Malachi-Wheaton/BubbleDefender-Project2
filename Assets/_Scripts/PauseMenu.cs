@@ -1,64 +1,56 @@
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PauseMenu : MonoBehaviour
 {
-    [Header("References")]
-    public GameObject pauseMenuUI; 
-    public Button resumeButton;    
-    public Button quitButton;      
+    [Header("UI References")]
+    [SerializeField] private GameObject pauseMenuUI;
 
-    private bool isPaused = false;  
+    [Header("Events")]
+    public UnityEvent onPause;
+    public UnityEvent onResume;
 
-    private void Start()
-    {
-        resumeButton.onClick.AddListener(ResumeGame);
-        quitButton.onClick.AddListener(QuitGame);
-
-        
-        pauseMenuUI.SetActive(false);
-    }
-
+    private bool isPaused = false;
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape)) 
         {
-            Debug.Log("Escape key pressed!");
-            if (isPaused)
-            {
-                ResumeGame();
-            }
-            else
-            {
-                PauseGame();
-            }
+            if (isPaused) ResumeGame();
+            else PauseGame();
         }
     }
 
-
-
-    void PauseGame()
+    public void PauseGame()
     {
         isPaused = true;
-        Time.timeScale = 0f;          
-        pauseMenuUI.SetActive(true);  
+        Time.timeScale = 0f; 
+        pauseMenuUI.SetActive(true); 
+        Cursor.lockState = CursorLockMode.None; 
+        Cursor.visible = true;
+        onPause?.Invoke(); 
     }
 
-    
-    void ResumeGame()
+    public void ResumeGame()
     {
         isPaused = false;
-        Time.timeScale = 1f;          
+        Time.timeScale = 1f; 
         pauseMenuUI.SetActive(false); 
+        Cursor.lockState = CursorLockMode.Locked; 
+        Cursor.visible = false;
+        onResume?.Invoke();
     }
 
-    
-    void QuitGame()
+    public void RestartGame()
     {
-        
-        Debug.Log("Quit the game");
+        Time.timeScale = 1f; 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+    }
+
+    public void QuitGame()
+    {
+        Time.timeScale = 1f; 
         Application.Quit(); 
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events; 
+using UnityEngine.Events;
 
 public class EnemySpawner : MonoBehaviour
 {
@@ -13,10 +13,10 @@ public class EnemySpawner : MonoBehaviour
     [SerializeField] private float enemiesPerSecond = 0.5f;
     [SerializeField] private float timeBetweenWaves = 5f;
     [SerializeField] private float difficultyScalingFactor = 0.75f;
-    [SerializeField] private int maxWaves = 5; 
+    [SerializeField] private int maxWaves = 5;
 
     [Header("Events")]
-    public static UnityEvent onEnemyDestroy = new UnityEvent(); 
+    public static UnityEvent onEnemyDestroy = new UnityEvent();
 
     private int currentWave = 1;
     private float timeSinceLastSpawn;
@@ -31,12 +31,12 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
-        StartCoroutine(StartWave()); 
+        StartCoroutine(StartWave());
     }
 
     private void Update()
     {
-        if (!isSpawning || currentWave > maxWaves) return; 
+        if (!isSpawning || currentWave > maxWaves) return;
 
         timeSinceLastSpawn += Time.deltaTime;
 
@@ -61,21 +61,30 @@ public class EnemySpawner : MonoBehaviour
 
     private IEnumerator StartWave()
     {
-        if (currentWave > maxWaves) yield break;
+        if (currentWave > maxWaves)
+        {
+            yield break;
+        }
 
-        yield return new WaitForSeconds(timeBetweenWaves);
+        yield return new WaitForSeconds(timeBetweenWaves);  
 
         isSpawning = true;
-        enemiesLeftToSpawn += EnemiesPerWave();
+        enemiesLeftToSpawn = EnemiesPerWave(); 
     }
 
     private void EndWave()
     {
         isSpawning = false;
         timeSinceLastSpawn = 0f;
+
+        if (currentWave >= maxWaves)
+        {
+            Debug.Log("All waves are completed.");
+            return;
+        }
+
         currentWave++;
 
-        if (currentWave > maxWaves) return;
         StartCoroutine(StartWave());
     }
 
@@ -83,7 +92,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (enemyPrefabs.Length < 2) return;
 
-        GameObject prefabToSpawn = enemyPrefabs[Random.Range(0, 2)];
+        GameObject prefabToSpawn = enemyPrefabs[Random.Range(0, enemyPrefabs.Length)];
         Instantiate(prefabToSpawn, LevelManager.main.startPoint.position, Quaternion.identity);
     }
 
@@ -92,8 +101,3 @@ public class EnemySpawner : MonoBehaviour
         return Mathf.RoundToInt(baseEnemies * Mathf.Pow(currentWave, difficultyScalingFactor));
     }
 }
-
-
-
-
-
