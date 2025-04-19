@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class IceTower : MonoBehaviour
 {
@@ -12,8 +11,8 @@ public class IceTower : MonoBehaviour
 
     [Header("Attributes")]
     [SerializeField] private float targetingRange = 5f;
-    [SerializeField] private float BPS = 0.7f; 
-    [SerializeField] private float freezeDuration = 2f; 
+    [SerializeField] private float BPS = 0.7f;
+    [SerializeField] private float freezeDuration = 2f;
 
     private Transform target;
     private float timeUntilFire;
@@ -50,7 +49,6 @@ public class IceTower : MonoBehaviour
         bulletScript.SetFreezeEffect(freezeDuration);
     }
 
-
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
@@ -66,12 +64,16 @@ public class IceTower : MonoBehaviour
         return Vector2.Distance(target.position, transform.position) <= targetingRange;
     }
 
+    // ❗ Fix: Exclude Handles code from builds
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        Handles.color = Color.blue;
-        Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
+        UnityEditor.Handles.color = Color.blue;
+        UnityEditor.Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
     }
+#endif
 }
+
 
 
 

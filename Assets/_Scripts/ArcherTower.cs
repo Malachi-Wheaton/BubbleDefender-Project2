@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 public class Tower : MonoBehaviour
 {
@@ -9,7 +8,6 @@ public class Tower : MonoBehaviour
     [SerializeField] private LayerMask enemyMask;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
-
 
     [Header("Attribute")]
     [SerializeField] private float targetingRange = 5f;
@@ -49,8 +47,6 @@ public class Tower : MonoBehaviour
         bulletScript.SetTarget(target);
     }
 
-
-
     private void FindTarget()
     {
         RaycastHit2D[] hits = Physics2D.CircleCastAll(transform.position, targetingRange, Vector2.zero, 0f, enemyMask);
@@ -61,16 +57,18 @@ public class Tower : MonoBehaviour
         }
     }
 
-
     private bool CheckTargetIsInRange()
     {
         return Vector2.Distance(target.position, transform.position) <= targetingRange;
     }
 
+    // ❗ Fix: Exclude Handles code from builds
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        Handles.color = Color.cyan;
-        Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
+        UnityEditor.Handles.color = Color.cyan;
+        UnityEditor.Handles.DrawWireDisc(transform.position, transform.forward, targetingRange);
     }
+#endif
 }
 
